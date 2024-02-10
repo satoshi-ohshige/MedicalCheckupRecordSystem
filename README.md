@@ -1,5 +1,7 @@
 # 簡易的な健康診断の受診記録を管理するシステム
 
+仕様はこちら → [SPECIFICATION.md](/SPECIFICATION.md)
+
 ## 開発環境
 以下のコマンドで環境構築できます
 ```shell
