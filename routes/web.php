@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ShowMedicalRecordsController;
 use App\Http\Controllers\ShowUsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +33,4 @@ Route::get('/users/{userId}/create-record', function () {
     return view('create-record');
 })->name('create-record');
 
-Route::get('/medical-records', function () {
-    return view('medical-records');
-})->name('medical-records');
+Route::get('/medical-records', ShowMedicalRecordsController::class)->name('medical-records');
