@@ -8,8 +8,11 @@ use App\Models\User;
 
 final readonly class MedicalRecordsItemViewModel
 {
+    private MedicalRecordViewModel $medicalRecordViewModel;
+
     public function __construct(private User $user, private MedicalRecord $medicalRecord)
     {
+        $this->medicalRecordViewModel = new MedicalRecordViewModel($this->medicalRecord);
     }
 
     public function showUserName(): string
@@ -19,16 +22,16 @@ final readonly class MedicalRecordsItemViewModel
 
     public function showCheckupDate(): string
     {
-        return $this->medicalRecord->getCheckupDate()->format('Y-m-d');
+        return $this->medicalRecordViewModel->showCheckupDate();
     }
 
     public function showCheckupCourse(): string
     {
-        return $this->medicalRecord->getCourse()->label();
+        return $this->medicalRecordViewModel->showCheckupCourse();
     }
 
     public function showCheckupPlace(): string
     {
-        return $this->medicalRecord->getPlace();
+        return $this->medicalRecordViewModel->showCheckupPlace();
     }
 }

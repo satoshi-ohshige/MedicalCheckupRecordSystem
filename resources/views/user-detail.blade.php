@@ -1,3 +1,8 @@
+@php
+    /** @var \App\ViewModels\UserViewModel $user */
+    /** @var \App\ViewModels\MedicalRecordViewModel[] $medicalRecords */
+@endphp
+
 @extends('components.layout')
 
 @section('title', 'ユーザー詳細')
@@ -19,12 +24,12 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>1</td>
-                    <td>島田直樹</td>
-                    <td>1996-04-30</td>
-                    <td>27歳</td>
-                    <td>基本健診</td>
-                    <td><a class="btn btn-sm btn-outline-primary" href="{{ route('create-record', ['userId' => 1]) }}">受診登録</a></td>
+                    <td>{{ $user->showUserId() }}</td>
+                    <td>{{ $user->showName() }}</td>
+                    <td>{{ $user->showBirthdate() }}</td>
+                    <td>{{ $user->showFiscalAge() }}歳</td>
+                    <td>{{ $user->showDefaultCheckupCourse() }}</td>
+                    <td><a class="btn btn-sm btn-outline-primary" href="{{ route('create-record', ['userId' => $user->showUserId()]) }}">受診登録</a></td>
                 </tr>
                 </tbody>
             </table>
@@ -43,36 +48,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>2023</td>
-                    <td>2023-10-13</td>
-                    <td>基本健診</td>
-                    <td>東京都練馬区</td>
-                </tr>
-                <tr>
-                    <td>2022</td>
-                    <td>2022-09-22</td>
-                    <td>基本健診</td>
-                    <td>東京都練馬区</td>
-                </tr>
-                <tr>
-                    <td>2021</td>
-                    <td>2021-10-25</td>
-                    <td>基本健診</td>
-                    <td>東京都新宿区</td>
-                </tr>
-                <tr>
-                    <td>2020</td>
-                    <td>2020-08-27</td>
-                    <td>基本健診</td>
-                    <td>東京都練馬区</td>
-                </tr>
-                <tr>
-                    <td>2019</td>
-                    <td>2019-09-21</td>
-                    <td>基本健診</td>
-                    <td>東京都港区</td>
-                </tr>
+                @foreach($medicalRecords as $medicalRecord)
+                    <tr>
+                        <td>{{ $medicalRecord->showCheckupFiscalYear() }}</td>
+                        <td>{{ $medicalRecord->showCheckupDate() }}</td>
+                        <td>{{ $medicalRecord->showCheckupCourse() }}</td>
+                        <td>{{ $medicalRecord->showCheckupPlace() }}</td>
+                    </tr>
+                @endforeach
                 </tbody>
             </table>
         </div>
