@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ShowUsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,9 +22,7 @@ Route::get('/sign-up', function () {
     return view('sign-up');
 })->name('sign-up');
 
-Route::get('/users', function () {
-    return view('users');
-})->name('users');
+Route::get('/users', ShowUsersController::class)->name('users');
 
 Route::get('/users/{userId}', function () {
     return view('user-detail');

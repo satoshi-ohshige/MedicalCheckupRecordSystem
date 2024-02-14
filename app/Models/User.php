@@ -1,45 +1,31 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Symfony\Component\Uid\Ulid;
 
-class User extends Authenticatable
+readonly class User
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    public function __construct(
+        private Ulid $userId,
+        private string $name,
+        private Birthdate $birthdate,
+    ) {
+    }
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    public function getUserId(): Ulid
+    {
+        return $this->userId;
+    }
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    public function getName(): string
+    {
+        return $this->name;
+    }
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
+    public function getBirthdate(): Birthdate
+    {
+        return $this->birthdate;
+    }
 }
