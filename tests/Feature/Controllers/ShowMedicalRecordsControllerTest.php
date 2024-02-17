@@ -4,12 +4,15 @@ declare(strict_types=1);
 namespace tests\Feature\Controllers;
 
 use Carbon\CarbonImmutable;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ShowMedicalRecordsControllerTest extends TestCase
 {
+    use DatabaseTransactions;
+
     #[Test]
     #[DataProvider('年度の指定と取得できる結果の組み合わせ')]
     public function 特定の年度の受診記録一覧を取得できる(string $fyParameter, int $expectedFy): void

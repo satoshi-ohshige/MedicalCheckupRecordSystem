@@ -1,44 +1,28 @@
 <?php
+declare(strict_types=1);
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
+use App\Models\Birthdate;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Symfony\Component\Uid\Ulid;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
- */
-class UserFactory extends Factory
+class UserFactory
 {
-    /**
-     * The current password being used by the factory.
-     */
-    protected static ?string $password;
-
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    public static function factory(?Ulid $userId = null, ?string $name = null, ?Birthdate $birthdate = null): User
     {
-        return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
-        ];
-    }
+        $userId ??= Str::ulid();
+        $name ??= fake()->name;
+        $birthdate ??= Birthdate::factory(fake()->dateTimeBetween('-60years', '-10years')->format('Y-m-d'));
 
-    /**
-     * Indicate that the model's email address should be unverified.
-     */
-    public function unverified(): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
+        $user = new User($userId, $name, $birthdate);
+
+        DB::table('user')->insert([
+            ['user_id' => $user->getUserId(), 'name' => $user->getName(), 'birthdate' => $user->getBirthdate()->showBirthdate()],
         ]);
+
+        return $user;
     }
 }

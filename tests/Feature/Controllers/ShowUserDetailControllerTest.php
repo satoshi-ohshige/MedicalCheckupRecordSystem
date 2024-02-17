@@ -3,15 +3,21 @@ declare(strict_types=1);
 
 namespace tests\Feature\Controllers;
 
+use Database\Factories\UserFactory;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ShowUserDetailControllerTest extends TestCase
 {
+    use DatabaseTransactions;
+
     #[Test]
     public function ユーザー詳細を取得できる(): void
     {
-        $response = $this->get('/users/01HPKZCTPJYJNMRGC6PT49CPP7');
+        $user = UserFactory::factory();
+
+        $response = $this->get("/users/{$user->getUserId()}");
 
         $response->assertOk();
     }
