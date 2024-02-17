@@ -8,8 +8,11 @@ use App\Models\User;
 
 final readonly class UserViewModel
 {
+    private CheckupCourse $defaultCourse;
+
     public function __construct(private User $user)
     {
+        $this->defaultCourse = CheckupCourse::getDefaultCourse($user->getBirthdate()->calculateFiscalAge());
     }
 
     public function showUserId(): string
@@ -34,6 +37,11 @@ final readonly class UserViewModel
 
     public function showDefaultCheckupCourse(): string
     {
-        return CheckupCourse::getDefaultCourse($this->user->getBirthdate()->calculateFiscalAge())->label();
+        return $this->defaultCourse->label();
+    }
+
+    public function isDefaultCheckupCourse(CheckupCourse $checkupCourse): bool
+    {
+        return $this->defaultCourse === $checkupCourse;
     }
 }

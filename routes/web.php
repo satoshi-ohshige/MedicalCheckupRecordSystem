@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\ShowCreateRecordController;
 use App\Http\Controllers\ShowCreateUserController;
 use App\Http\Controllers\ShowMedicalRecordsController;
 use App\Http\Controllers\ShowUserDetailController;
 use App\Http\Controllers\ShowUsersController;
+use App\Http\Controllers\StoreRecordController;
 use App\Http\Controllers\StoreUserController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,8 +31,7 @@ Route::get('/users', ShowUsersController::class)->name('users');
 
 Route::get('/users/{userId}', ShowUserDetailController::class)->name('user-detail');
 
-Route::get('/users/{userId}/create-record', function () {
-    return view('create-record');
-})->name('create-record');
+Route::get('/users/{userId}/create-record', ShowCreateRecordController::class)->name('create-record');
+Route::post('/users/{userId}/create-record', StoreRecordController::class)->name('create-record');
 
 Route::get('/medical-records', ShowMedicalRecordsController::class)->name('medical-records');
