@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace tests\Unit\Models;
+namespace Tests\Unit\Models;
 
 use App\Models\FiscalYear;
 use Carbon\CarbonImmutable;

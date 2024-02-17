@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace tests\Feature\Controllers;
+namespace Tests\Feature\Controllers;
 
 use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
