@@ -37,6 +37,15 @@ logs: ## コンテナのログを逐次表示します。
 	docker compose logs -f
 
 
+.PHONY: migrate
+migrate: ## `php artisan migrate --seed` で、マイグレーションとシーディングを実行します。
+	docker compose exec php php artisan migrate --seed
+
+.PHONY: seed.sample
+seed.sample: ## `php artisan db:seed --class=SampleSeed` で、サンプルデータのシーディングを実行します。
+	docker compose exec php php artisan db:seed --class=SampleSeeder
+
+
 .PHONY: composer.install
 composer.install: ## `composer install` を実行します。
 	docker compose exec php composer install

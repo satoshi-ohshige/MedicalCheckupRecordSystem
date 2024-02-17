@@ -6,6 +6,9 @@
 以下のコマンドで環境構築できます
 ```shell
 make init
+# DBの初回構築に多少時間がかかるので、しばらくしたら以下のマイグレーションを実行
+make migrate
+make seed.sample
 ```
 
 以下のURLで動作を確認できます  
@@ -19,4 +22,14 @@ make up
 make down
 # ヘルプ表示
 make help
+```
+
+## コマンドライン
+コマンドラインでの実行も用意しています
+
+コマンドを記載していますが、Docker環境の場合は `docker compose exec php` を先頭につけるなど適宜読み替えてください
+
+### ユーザー詳細情報の表示
+```shell
+php artisan app:show-user-detail {userId}
 ```
