@@ -17,6 +17,17 @@ readonly class MedicalRecord
     ) {
     }
 
+    public static function recreateFromDb(\stdClass $raw): self
+    {
+        return new self(
+            Ulid::fromString($raw->medical_record_id),
+            Ulid::fromString($raw->user_id),
+            CheckupCourse::from($raw->course),
+            $raw->place,
+            CarbonImmutable::parse($raw->checkup_date),
+        );
+    }
+
     public function getRecordId(): Ulid
     {
         return $this->recordId;
