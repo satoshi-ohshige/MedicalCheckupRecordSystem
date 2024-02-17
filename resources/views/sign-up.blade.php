@@ -5,17 +5,24 @@
 @section('content')
     <div class="card">
         <div class="card-header">ユーザー登録</div>
-        <form class="m-3">
+        <form class="m-3" method="post">
+            {{ csrf_field() }}
             <div class="mb-3 row justify-content-center">
                 <label for="name" class="col-2 col-form-label">名前</label>
                 <div class="col-5">
-                    <input type="text" class="form-control" id="name" name="name">
+                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
+                    @error('name')
+                    <div class="form-text text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
             <div class="mb-4 row justify-content-center">
                 <label for="birthdate" class="col-2 col-form-label">生年月日</label>
                 <div class="col-5">
-                    <input type="date" class="form-control" id="birthdate" name="birthdate">
+                    <input type="date" class="form-control" id="birthdate" name="birthdate" value="{{ old('birthdate') }}">
+                    @error('birthdate')
+                    <div class="form-text text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
             <div class="d-grid gap-2 col-5 mx-auto">

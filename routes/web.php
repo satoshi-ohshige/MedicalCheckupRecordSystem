@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\ShowCreateUserController;
 use App\Http\Controllers\ShowMedicalRecordsController;
 use App\Http\Controllers\ShowUserDetailController;
 use App\Http\Controllers\ShowUsersController;
+use App\Http\Controllers\StoreUserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,9 +22,8 @@ Route::get('/', function () {
     return view('top');
 });
 
-Route::get('/sign-up', function () {
-    return view('sign-up');
-})->name('sign-up');
+Route::get('/sign-up', ShowCreateUserController::class)->name('sign-up');
+Route::post('/sign-up', StoreUserController::class)->name('sign-up');
 
 Route::get('/users', ShowUsersController::class)->name('users');
 
