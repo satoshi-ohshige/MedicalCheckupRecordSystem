@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\MedicalRecordAlreadyExistException;
+use App\Exceptions\UserNotFoundException;
 use App\Http\Requests\StoreRecordRequest;
 use App\Models\CheckupCourse;
 use App\Usecases\StoreRecordUsecase;
@@ -18,7 +20,13 @@ class StoreRecordController extends Controller
             abort(404);
         }
 
-        $output = $usecase(Ulid::fromString($userId), new CarbonImmutable($request->input('checkupDate')), CheckupCourse::from($request->input('course')), $request->input('place'));
+        try {
+            $usecase(Ulid::fromString($userId), new CarbonImmutable($request->input('checkupDate')), CheckupCourse::from($request->input('course')), $request->input('place'));
+        } catch (UserNotFoundException) {
+            abort(404);
+        } catch (MedicalRecordAlreadyExistException) {
+            return redirect(route('user-detail', ['userId' => $userId]))->with('flash_message', 'その年度の受診記録は登録済みです');
+        }
 
         return redirect(route('user-detail', ['userId' => $userId]));
     }

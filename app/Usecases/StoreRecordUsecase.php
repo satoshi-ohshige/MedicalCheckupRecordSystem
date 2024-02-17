@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Usecases;
 
+use App\Exceptions\UserNotFoundException;
 use App\Models\CheckupCourse;
 use App\Models\MedicalRecord;
 use App\Repositories\MedicalRecordRepositoryInterface;
@@ -21,8 +22,7 @@ final readonly class StoreRecordUsecase
     {
         $user = $this->userRepository->findById($userId);
         if ($user === null) {
-            // TODO: 独自例外を用意
-            abort(404);
+            throw new UserNotFoundException($userId);
         }
 
         $medicalRecord = new MedicalRecord(Str::ulid(), $userId, $course, $place, $checkupDate);

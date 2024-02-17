@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Usecases;
 
+use App\Exceptions\UserNotFoundException;
 use App\Repositories\UserRepositoryInterface;
 use Symfony\Component\Uid\Ulid;
 
@@ -16,8 +17,7 @@ final readonly class ShowCreateRecordUsecase
     {
         $user = $this->userRepository->findById($userId);
         if ($user === null) {
-            // TODO: 独自例外を用意
-            abort(404);
+            throw new UserNotFoundException($userId);
         }
 
         return new ShowCreateRecordUsecaseOutput($user);

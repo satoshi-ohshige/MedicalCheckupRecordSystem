@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\UserNotFoundException;
 use App\Models\MedicalRecord;
 use App\Usecases\ShowUserDetailUsecase;
 use App\ViewModels\MedicalRecordViewModel;
@@ -18,7 +19,11 @@ class ShowUserDetailController extends Controller
             abort(404);
         }
 
-        $output = $usecase(Ulid::fromString($userId));
+        try {
+            $output = $usecase(Ulid::fromString($userId));
+        } catch (UserNotFoundException) {
+            abort(404);
+        }
 
         return view('user-detail', [
             'user' => new UserViewModel($output->user),

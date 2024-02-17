@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Usecases;
 
+use App\Exceptions\UserNotFoundException;
 use App\Repositories\MedicalRecordRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
 use Symfony\Component\Uid\Ulid;
@@ -17,8 +18,7 @@ final readonly class ShowUserDetailUsecase
     {
         $user = $this->userRepository->findById($userId);
         if ($user === null) {
-            // TODO: 独自例外を用意
-            abort(404);
+            throw new UserNotFoundException($userId);
         }
 
         $medicalRecords = $this->medicalRecordRepository->findByUserId($userId);

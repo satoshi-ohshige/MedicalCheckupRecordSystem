@@ -8,6 +8,11 @@
 @section('title', 'ユーザー詳細')
 
 @section('content')
+    @if (session('flash_message'))
+        <div class="alert alert-danger" role="alert">
+            {{ session('flash_message') }}
+        </div>
+    @endif
     <div class="card">
         <div class="card-header">ユーザー詳細</div>
         <div class="card-body">

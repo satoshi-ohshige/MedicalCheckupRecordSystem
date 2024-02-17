@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Exceptions\MedicalRecordAlreadyExistException;
 use App\Models\FiscalYear;
 use App\Models\MedicalRecord;
 use App\Models\User;
@@ -70,9 +71,8 @@ class MedicalRecordRepository implements MedicalRecordRepositoryInterface
                     'checkup_date' => $medicalRecord->getCheckupDate()->format('Y-m-d')
                 ]
             ]);
-        } catch (UniqueConstraintViolationException) {
-            // TODO: 独自例外を用意
-            abort(400);
+        } catch (UniqueConstraintViolationException $e) {
+            throw new MedicalRecordAlreadyExistException($medicalRecord->getUserId(), FiscalYear::factory($medicalRecord->getCheckupDate()), $e);
         }
     }
 }

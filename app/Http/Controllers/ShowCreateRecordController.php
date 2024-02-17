@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\UserNotFoundException;
 use App\Models\CheckupCourse;
 use App\Usecases\ShowCreateRecordUsecase;
 use App\ViewModels\UserViewModel;
@@ -17,7 +18,11 @@ class ShowCreateRecordController extends Controller
             abort(404);
         }
 
-        $output = $usecase(Ulid::fromString($userId));
+        try {
+            $output = $usecase(Ulid::fromString($userId));
+        } catch (UserNotFoundException) {
+            abort(404);
+        }
 
         return view('create-record', [
             'user' => new UserViewModel($output->user),

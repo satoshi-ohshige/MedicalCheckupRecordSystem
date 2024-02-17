@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Usecases;
 
+use App\Exceptions\MedicalRecordAlreadyExistException;
+use App\Exceptions\UserNotFoundException;
 use App\Models\CheckupCourse;
 use App\Usecases\StoreRecordUsecase;
 use Carbon\CarbonImmutable;
@@ -10,8 +12,6 @@ use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Str;
 use PHPUnit\Framework\Attributes\Test;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Tests\TestCase;
 
 class StoreRecordUsecaseTest extends TestCase
@@ -55,16 +55,14 @@ class StoreRecordUsecaseTest extends TestCase
         $this->usecase->__invoke($user->getUserId(), new CarbonImmutable('2023-04-01'), CheckupCourse::Basic, 'どこかの場所');
 
         // 同じユーザーが再度2023年度で登録する
-        // TODO: 独自例外を用意
-        $this->expectException(HttpException::class);
+        $this->expectException(MedicalRecordAlreadyExistException::class);
         $this->usecase->__invoke($user->getUserId(), new CarbonImmutable('2024-03-31'), CheckupCourse::Basic, 'どこかの場所');
     }
 
     #[Test]
     public function 存在しないユーザーで受診記録登録すると例外が発生する(): void
     {
-        // TODO: 独自例外を用意
-        $this->expectException(NotFoundHttpException::class);
+        $this->expectException(UserNotFoundException::class);
         $this->usecase->__invoke(Str::ulid(), new CarbonImmutable(), CheckupCourse::Basic, 'どこかの場所');
     }
 }
